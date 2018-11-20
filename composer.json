@@ -1,0 +1,41 @@
+{
+    "name": "romega/testsuite",
+    "description": "Common test methods utilized in Romega packages.",
+    "keywords": [
+        "romega",
+        "testing"
+    ],
+    "homepage": "https://romegadigital.com/",
+    "license": "MIT",
+    "type": "package",
+    "authors": [
+        {
+            "name": "Braden Keith",
+            "email": "bkeith@romegadigital.com",
+            "homepage": "https://bradenkeith.com/",
+            "role": "Developer"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "require": {
+        "illuminate/support": "5.7.*",
+        "spatie/laravel-permission": "^2.16",
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Romega\\TestSuite\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Romega\\TestSuite\\Test\\": "test"
+        }
+    },
+    "minimum-stability": "dev" 
+}
