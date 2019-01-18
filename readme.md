@@ -16,6 +16,21 @@ composer.json
 composer require romegadigital/testsuite --dev
 ```
 
+---
+
+```sh
+art make:factory TenantFactory
+```
+
+```php
+// TenantFactory.php
+$factory->define(App\Tenant::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+        'domain' => $faker->word,
+    ];
+});
+```
 
 ```php
 	use TenantDomain;
@@ -27,11 +42,8 @@ composer require romegadigital/testsuite --dev
     }
 ```
 
+---
+
 ```php
 	use TenantAdminDomain;
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
 ```
