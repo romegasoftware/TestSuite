@@ -1,6 +1,6 @@
 <?php
 
-namespace Romega\TestSuite;
+namespace RomegaDigital\TestSuite;
 
 trait ActingAsUser
 {

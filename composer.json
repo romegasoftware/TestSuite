@@ -1,5 +1,5 @@
 {
-    "name": "romega/testsuite",
+    "name": "romegadigital/testsuite",
     "description": "Common test methods utilized in Romega packages.",
     "keywords": [
         "romega",
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Romega\\TestSuite\\": "src"
+            "RomegaDigital\\TestSuite\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Romega\\TestSuite\\Test\\": "test"
+            "RomegaDigital\\TestSuite\\Test\\": "test"
         }
     },
     "minimum-stability": "dev" 
