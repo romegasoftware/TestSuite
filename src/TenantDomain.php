@@ -7,16 +7,19 @@ use Illuminate\Support\Facades\Request;
 
 trait TenantDomain
 {
-    use ActingAsUser;
+	use ActingAsUser;
 
-    protected $tenant = [];
+	protected $tenant = [];
 
-    public function tenantDomain()
-    {
-        $this->tenant = factory(config('multitenancy.tenant_model'))->create();
-        $this->tenant->users()->save($this->actingAsUser());
+	public function tenantDomain()
+	{
+		$this->tenant = factory(config('multitenancy.tenant_model'))->create([
+			'domain'=> 'test',
+			'name'	=> 'Test'
+		]);
+		$this->tenant->users()->save($this->actingAsUser());
 
-        $url = Request::getScheme().'://'.$this->tenant->domain.'.'.Request::getHost();
-        Config::set('app.url', $url);
-    }
+		$url = Request::getScheme().'://'.$this->tenant->domain.'.'.Request::getHost();
+		Config::set('app.url', $url);
+	}
 }

@@ -15,7 +15,7 @@ trait ActingAsUser
         $this->user = factory(\App\User::class)->create();
 
         $this->actingAs($this->user);
-
+        
         return $this->user;
     }
 }
