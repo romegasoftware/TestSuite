@@ -20,7 +20,7 @@
         "sort-packages": true
     },
     "require": {
-        "illuminate/support": "5.7.*",
+        "illuminate/support": "5.8.*",
         "spatie/laravel-permission": "^2.16",
         "php": ">=5.4"
     },
