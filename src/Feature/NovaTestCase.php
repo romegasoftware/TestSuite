@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Nova;
+namespace RomegaDigital\TestSuite\Feature;
 
 use Tests\TestCase;
 use RomegaDigital\TestSuite\SetupRomegaTestSuite;
