@@ -4,7 +4,7 @@ namespace RomegaDigital\TestSuite\Feature;
 
 use RomegaDigital\TestSuite\Fixtures\Traits\InteractsWithNovaResources;
 
-class ResourceTestCase extends NovaTestCase
+class NovaResourceTestCase extends NovaTestCase
 {
     use InteractsWithNovaResources;
 
