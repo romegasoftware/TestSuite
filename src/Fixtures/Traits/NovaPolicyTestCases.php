@@ -8,7 +8,7 @@ trait NovaPolicyTestCases
 {
     use TenantAdminDomain;
 
-    public $permissionsClass = App\Enums\Permissions::class;
+    public $permissionsClass = \App\Enums\Permissions::class;
 
     /** @test **/
     public function it_cant_read_resource_without_permission()
@@ -20,7 +20,7 @@ trait NovaPolicyTestCases
         $this->expectStatusCode(403)
             ->getResource($resource->id, $user);
 
-        $user->givePermissionTo($this->$permissionsClass::read($this->modelClass));
+        $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
 
         $this->getResource($resource->id, $user);
     }
@@ -34,7 +34,7 @@ trait NovaPolicyTestCases
         $this->expectStatusCode(403)
             ->storeResource([], $user);
 
-        $user->givePermissionTo($this->$permissionsClass::create($this->modelClass));
+        $user->givePermissionTo($this->permissionsClass::create($this->modelClass));
 
         $this->storeResource([], $user);
     }
@@ -51,7 +51,7 @@ trait NovaPolicyTestCases
                 'id' => $resource->id,
             ], $user);
 
-        $user->givePermissionTo($this->$permissionsClass::update($this->modelClass));
+        $user->givePermissionTo($this->permissionsClass::update($this->modelClass));
 
         $this->updateResource([
                 'id' => $resource->id,
@@ -68,7 +68,7 @@ trait NovaPolicyTestCases
         $this->deleteResource([$resource->id], $user);
         $this->assertDatabaseHas($resource->getTable(), $resource->only('id'));
 
-        $user->givePermissionTo($this->$permissionsClass::delete($this->modelClass));
+        $user->givePermissionTo($this->permissionsClass::delete($this->modelClass));
 
         $this->deleteResource([$resource->id], $user);
         $this->assertDatabaseMissing($resource->getTable(), $resource->only('id'));
