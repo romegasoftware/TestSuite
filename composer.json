@@ -22,11 +22,11 @@
     "require": {
         "php": "^7.1.3",
         "illuminate/support": "5.8.*",
-        "spatie/laravel-permission": "^2.16"
+        "spatie/laravel-permission": "^2.16",
+        "codedungeon/phpunit-result-printer": "^0.8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5",
-        "codedungeon/phpunit-result-printer": "^0.8.0"
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {
