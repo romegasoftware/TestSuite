@@ -8,7 +8,7 @@ trait NovaPolicyTestCases
 {
     use TenantAdminDomain;
 
-    $permissionsClass = App\Enums\Permissions::class;
+    public $permissionsClass = App\Enums\Permissions::class;
 
     /** @test **/
     public function it_cant_read_resource_without_permission()
