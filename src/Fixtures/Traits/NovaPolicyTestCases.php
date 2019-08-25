@@ -10,12 +10,33 @@ trait NovaPolicyTestCases
 
     public $permissionsClass = \App\Enums\Permissions::class;
 
-    /** @test **/
-    public function it_cant_read_resource_without_permission()
+    public function setup_resource()
     {
         $user = factory(\App\User::class)->create();
         $user->tenants()->save($this->tenantAdmin);
         $resource = factory($this->modelClass)->create($this->remapAttributes());
+
+        return [$user, $resource];
+    }
+
+    /** @test **/
+    public function it_can_view_any()
+    {
+        [$user, $resource] = $this->setup_resource();
+
+        $this->expectStatusCode(403)
+            ->getResource('', $user)
+            ->assertStatus(403);
+
+        $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
+
+        $this->getResource('', $user)->assertOk();
+    }
+
+    /** @test **/
+    public function it_can_view_model()
+    {
+        [$user, $resource] = $this->setup_resource();
 
         $this->expectStatusCode(403)
             ->getResource($resource->id, $user)
@@ -29,13 +50,13 @@ trait NovaPolicyTestCases
     /** @test */
     public function it_cant_create_a_resource_without_permission()
     {
-        $user = factory(\App\User::class)->create();
-        $user->tenants()->save($this->tenantAdmin);
+        [$user, $resource] = $this->setup_resource();
 
         $this->expectStatusCode(403)
             ->storeResource([], $user)
             ->assertStatus(403);
 
+        $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
         $user->givePermissionTo($this->permissionsClass::create($this->modelClass));
 
         $this->storeResource([], $user)
@@ -45,9 +66,7 @@ trait NovaPolicyTestCases
     /** @test */
     public function it_cant_update_a_resource_without_permission()
     {
-        $user = factory(\App\User::class)->create();
-        $user->tenants()->save($this->tenantAdmin);
-        $resource = factory($this->modelClass)->create($this->remapAttributes());
+        [$user, $resource] = $this->setup_resource();
 
         $this->expectStatusCode(403)
             ->updateResource([
@@ -55,6 +74,7 @@ trait NovaPolicyTestCases
             ], $user)
             ->assertStatus(403);
 
+        $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
         $user->givePermissionTo($this->permissionsClass::update($this->modelClass));
 
         $this->updateResource([
@@ -66,9 +86,7 @@ trait NovaPolicyTestCases
     /** @test */
     public function it_cant_destroy_a_resource_without_permission()
     {
-        $user = factory(\App\User::class)->create();
-        $user->tenants()->save($this->tenantAdmin);
-        $resource = factory($this->modelClass)->create($this->remapAttributes());
+        [$user, $resource] = $this->setup_resource();
 
         $this->deleteResource([$resource->id], $user);
         if(in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($this->modelClass))){
@@ -77,7 +95,9 @@ trait NovaPolicyTestCases
             $this->assertDatabaseHas($resource->getTable(), $resource->only('id'));
         }
 
+        $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
         $user->givePermissionTo($this->permissionsClass::delete($this->modelClass));
+        
         $this->deleteResource([$resource->id], $user);
         if(in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($this->modelClass))){
             $this->assertSoftDeleted($resource->getTable(), $resource->only('id'));
