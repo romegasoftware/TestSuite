@@ -18,11 +18,12 @@ trait NovaPolicyTestCases
         $resource = factory($this->modelClass)->create($this->remapAttributes());
 
         $this->expectStatusCode(403)
-            ->getResource($resource->id, $user);
+            ->getResource($resource->id, $user)
+            ->assertStatus(403);
 
         $user->givePermissionTo($this->permissionsClass::read($this->modelClass));
 
-        $this->getResource($resource->id, $user);
+        $this->getResource($resource->id, $user)->assertOk();
     }
 
     /** @test */
@@ -32,11 +33,13 @@ trait NovaPolicyTestCases
         $user->tenants()->save($this->tenantAdmin);
 
         $this->expectStatusCode(403)
-            ->storeResource([], $user);
+            ->storeResource([], $user)
+            ->assertStatus(403);
 
         $user->givePermissionTo($this->permissionsClass::create($this->modelClass));
 
-        $this->storeResource([], $user);
+        $this->storeResource([], $user)
+            ->assertStatus(201);
     }
 
     /** @test */
@@ -49,13 +52,15 @@ trait NovaPolicyTestCases
         $this->expectStatusCode(403)
             ->updateResource([
                 'id' => $resource->id,
-            ], $user);
+            ], $user)
+            ->assertStatus(403);
 
         $user->givePermissionTo($this->permissionsClass::update($this->modelClass));
 
         $this->updateResource([
                 'id' => $resource->id,
-            ], $user);
+            ], $user)
+            ->assertStatus(200);
     }
 
     /** @test */

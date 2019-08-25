@@ -41,8 +41,7 @@ trait InteractsWithNovaResources
         $this->expectStatusCode(200);
 
         return $this->actingAs($user ?? $this->user)
-            ->novaGet($this->resourceClass::uriKey(), $key)
-            ->assertStatus($expectedCode ?? 200);
+            ->novaGet($this->resourceClass::uriKey(), $key);
     }
 
     /**
@@ -61,8 +60,7 @@ trait InteractsWithNovaResources
         $this->expectStatusCode(201);
 
         return $this->actingAs($user ?? $this->user)
-            ->novaStore($this->resourceClass::uriKey(), $resource->toArray())
-            ->assertStatus($expectedCode ?? 201);
+            ->novaStore($this->resourceClass::uriKey(), $resource->toArray());
     }
 
     /**
@@ -81,8 +79,7 @@ trait InteractsWithNovaResources
         $this->expectStatusCode(200);
 
         return $this->actingAs($user ?? $this->user)
-            ->novaUpdate($this->resourceClass::uriKey() . '/' . $resource['id'], $resource->toArray())
-            ->assertStatus($expectedCode ?? 200);
+            ->novaUpdate($this->resourceClass::uriKey() . '/' . $resource['id'], $resource->toArray());
     }
 
     /**
