@@ -66,12 +66,19 @@ trait NovaPolicyTestCases
         $resource = factory($this->modelClass)->create($this->remapAttributes());
 
         $this->deleteResource([$resource->id], $user);
-        $this->assertDatabaseHas($resource->getTable(), $resource->only('id'));
+        if(in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($this->modelClass))){
+            $this->assertEquals($resource->fresh()->{$resource->getDeletedAtColumn()}, null);
+        } else {
+            $this->assertDatabaseHas($resource->getTable(), $resource->only('id'));
+        }
 
         $user->givePermissionTo($this->permissionsClass::delete($this->modelClass));
-
         $this->deleteResource([$resource->id], $user);
-        $this->assertDatabaseMissing($resource->getTable(), $resource->only('id'));
+        if(in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($this->modelClass))){
+            $this->assertSoftDeleted($resource->getTable(), $resource->only('id'));
+        } else {
+            $this->assertDatabaseMissing($resource->getTable(), $resource->only('id'));
+        }
     }
 
     /**
