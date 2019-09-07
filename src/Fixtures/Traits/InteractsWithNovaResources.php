@@ -37,11 +37,14 @@ trait InteractsWithNovaResources
      */
     protected function getResource($key = '', $user = null)
     {
-        $expectedCode = $this->expectedStatusCode;
-        $this->expectStatusCode(200);
+        $expectedCode = $this->resetExpectedCode(200);
 
-        return $this->actingAs($user ?? $this->user)
+        $response = $this->actingAs($user ?? $this->user)
             ->novaGet($this->resourceClass::uriKey(), $key);
+
+        $this->dumpErrors($response, $expectedCode);
+
+        return $response->assertStatus($expectedCode ?? 200);
     }
 
     /**
@@ -55,16 +58,18 @@ trait InteractsWithNovaResources
     protected function storeResource($data = [], $user = null)
     {
         $resource = $this->mergeData($data);
+        $expectedCode = $this->resetExpectedCode(201);
 
-        $expectedCode = $this->expectedStatusCode;
-        $this->expectStatusCode(201);
-
-        return $this->actingAs($user ?? $this->user)
+        $response = $this->actingAs($user ?? $this->user, 'api')
             ->novaStore($this->resourceClass::uriKey(), $resource->toArray());
+
+        $this->dumpErrors($response, $expectedCode, $resource);
+
+        return $response->assertStatus($expectedCode ?? 201);
     }
 
     /**
-     * Update a resource via put request.
+     * Update a resource via post request.
      *
      * @param array                               $data
      * @param \Illuminate\Database\Eloquent\Model $user
@@ -74,12 +79,14 @@ trait InteractsWithNovaResources
     protected function updateResource($data = [], $user = null)
     {
         $resource = $this->mergeData($data);
+        $expectedCode = $this->resetExpectedCode(200);
 
-        $expectedCode = $this->expectedStatusCode;
-        $this->expectStatusCode(200);
-
-        return $this->actingAs($user ?? $this->user)
+        $response = $this->actingAs($user ?? $this->user, 'api')
             ->novaUpdate($this->resourceClass::uriKey() . '/' . $resource['id'], $resource->toArray());
+
+        $this->dumpErrors($response, $expectedCode, $resource);
+
+        return $response->assertStatus($expectedCode ?? 200);
     }
 
     /**
@@ -121,6 +128,38 @@ trait InteractsWithNovaResources
         $this->expectedStatusCode = $code;
 
         return $this;
+    }
+
+    /**
+     * Resets expectation code.
+     *
+     * @param int $standard
+     *
+     * @return int
+     */
+    protected function resetExpectedCode($standard)
+    {
+        return tap($this->expectedStatusCode, function () use ($standard) {
+            $this->expectedStatusCode = $standard;
+        });
+    }
+
+    /**
+     * Dumps errors to easier debug responses from nova.
+     *
+     * @param $response
+     * @param $resource
+     */
+    protected function dumpErrors($response, $expectedCode, $resource = null)
+    {
+        if (app('session.store')->has('errors') && ! in_array($expectedCode, [302])) {
+            dump(app('session.store')->get('errors')->getBag('default'));
+        }
+
+        if (! $response->isSuccessful() && ($expectedCode ?? 200) !== $response->status()) {
+            dump($resource);
+            dump($response->json());
+        }
     }
 
     /**
