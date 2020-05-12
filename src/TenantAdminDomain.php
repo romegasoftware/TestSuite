@@ -4,6 +4,7 @@ namespace RomegaDigital\TestSuite;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 
 trait TenantAdminDomain
 {
@@ -21,5 +22,6 @@ trait TenantAdminDomain
 
         $url = Request::getScheme().'://'.$this->tenantAdmin->domain.'.'.Request::getHost();
         Config::set('app.url', $url);
+        URL::forceRootUrl($url);
     }
 }
