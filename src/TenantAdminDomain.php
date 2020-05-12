@@ -17,7 +17,7 @@ trait TenantAdminDomain
 
         $this->tenantAdmin = config('multitenancy.tenant_model')::find(1);
         $this->tenantAdmin->users()->save($this->actingAsUser());
-        $this->user->assignRole('Super Administrator');
+        $this->user->assignRole(config('multitenancy.roles.super_admin'));
 
         $url = Request::getScheme().'://'.$this->tenantAdmin->domain.'.'.Request::getHost();
         Config::set('app.url', $url);
