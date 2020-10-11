@@ -12,9 +12,9 @@ trait NovaPolicyTestCases
 
     public function setupResource()
     {
-        $user = factory(\App\User::class)->create();
+        $user = \App\User::factory()->create();
         $user->tenants()->save($this->tenantAdmin);
-        $resource = factory($this->modelClass)->create($this->remapAttributes());
+        $resource = $this->modelClass->factory()->create($this->remapAttributes());
 
         return [$user, $resource];
     }

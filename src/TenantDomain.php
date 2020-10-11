@@ -14,7 +14,9 @@ trait TenantDomain
 
 	public function tenantDomain()
 	{
-		$this->tenant = factory(config('multitenancy.tenant_model'))->create([
+        $this->tenant = \App\Tenant::factory()->create();
+
+		$this->tenant = config('multitenancy.tenant_model')::factory()->create([
 			'domain'=> 'test',
 			'name'	=> 'Test'
 		]);

@@ -233,7 +233,7 @@ trait InteractsWithNovaResources
      */
     private function mergeData($data = [])
     {
-        $resource = factory($this->modelClass)->make();
+        $resource = $this->modelClass->factory()->make();
 
         return collect($resource)
             ->merge($this->remapResource($resource, $data))
