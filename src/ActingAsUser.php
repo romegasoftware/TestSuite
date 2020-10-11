@@ -12,7 +12,7 @@ trait ActingAsUser
         app()['cache']->forget('spatie.permission.cache');
         $this->seed('RolesAndPermissionsSeeder');
 
-        $this->user = \App\User::factory()->create();
+        $this->user = \App\Models\User::factory()->create();
 
         $this->actingAs($this->user);
         
