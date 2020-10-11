@@ -20,7 +20,7 @@
         "sort-packages": true
     },
     "require": {
-        "illuminate/support": "~5.8|~6.0|~7.0",
+        "illuminate/support": "~5.8|~6.0|~7.0|~8.0",
         "spatie/laravel-permission": "^3.0",
         "codedungeon/phpunit-result-printer": "dev-master"
     },
