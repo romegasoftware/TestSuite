@@ -1,22 +1,15 @@
-## About TestSuite
+# Test Suite
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Travis](https://img.shields.io/travis/romegasoftware/testsuite.svg?style=flat-square)]()
+[![Total Downloads](https://img.shields.io/packagist/dt/romegasoftware/testsuite.svg?style=flat-square)](https://packagist.org/packages/romegasoftware/testsuite)
 
-composer.json
-
-```json
-"repositories": {
-    "testsuite": {
-        "type": "vcs",
-        "url": "https://gitlab.com/romegadigitaltools/testsuite.git"
-    }
-}
-```
-
+## Install
 ```sh
-composer require romegadigital/testsuite --dev
+composer require romegasoftware/testsuite --dev
 ```
 
----
+## Usage
 
 ```sh
 art make:factory TenantFactory
