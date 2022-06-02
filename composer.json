@@ -1,5 +1,5 @@
 {
-    "name": "romegadigital/testsuite",
+    "name": "romegasoftware/testsuite",
     "description": "Common test methods utilized in Romega packages.",
     "keywords": [
         "romega",
@@ -12,7 +12,7 @@
         {
             "name": "Braden Keith",
             "email": "bkeith@romegasoftware.com",
-            "homepage": "https://bradenkeith.com/",
+            "homepage": "https://romegasoftware.com/",
             "role": "Developer"
         }
     ],
@@ -37,5 +37,5 @@
             "RomegaDigital\\TestSuite\\Test\\": "test"
         }
     },
-    "minimum-stability": "dev" 
+    "minimum-stability": "dev"
 }
