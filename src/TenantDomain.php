@@ -14,16 +14,12 @@ trait TenantDomain
 
 	public function tenantDomain()
 	{
-        $this->tenant = \App\Models\Tenant::factory()->create();
+        	$this->tenant = config('multitenancy.tenant_model')::factory()->create();
 
-		$this->tenant = config('multitenancy.tenant_model')::factory()->create([
-			'domain'=> 'test',
-			'name'	=> 'Test'
-		]);
 		$this->tenant->users()->save($this->actingAsUser());
 
 		$url = Request::getScheme().'://'.$this->tenant->domain.'.'.Request::getHost();
 		Config::set('app.url', $url);
-        URL::forceRootUrl($url);
+        	URL::forceRootUrl($url);
 	}
 }
